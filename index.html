@@ -726,7 +726,7 @@
 <script>
 
   // ⬇️ Paste your Anthropic API key here to publish without login
-  window.EMMA_API_KEY = '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';
+  window.EMMA_API_KEY = 'YOUR_API_KEY_HERE';
 
   const SYSTEM_PROMPT = `You are Emma, a world-class executive leadership coach for C-suite leaders — with a specific specialization in helping technical executives build and lead design and AI-native teams. Your coaching style is direct, incisive, and sophisticated. You do not give generic advice.
 
@@ -985,13 +985,19 @@ Key structural models:
       });
       const data = await response.json();
       removeThinking();
+      if (!response.ok) {
+        const errMsg = data?.error?.message || `API error ${response.status}`;
+        renderMessage('assistant', `Error from Anthropic: ${errMsg}`, true);
+        sendBtn.disabled = false;
+        return;
+      }
       const replyText = data.content?.map(b => b.text || '').join('') || 'I encountered an error. Please try again.';
       conversationHistory.push({ role: 'assistant', content: replyText });
       renderMessage('assistant', replyText, true);
       await saveState();
     } catch(err) {
       removeThinking();
-      renderMessage('assistant', 'Something went wrong. Please check your connection and try again.', true);
+      renderMessage('assistant', `Error: ${err.message}`, true);
     }
 
     sendBtn.disabled = false;
