@@ -133,21 +133,13 @@
   }
 
   .api-key-wrap {
-    display: flex;
-    align-items: center;
-    gap: 7px;
     background: var(--bg-3);
     border: 1px solid var(--border-md);
     border-radius: 7px;
     padding: 0 10px;
     height: 34px;
-    margin-right: 6px;
-  }
-  .api-key-label {
-    font-size: 11px;
-    color: var(--text-3);
-    white-space: nowrap;
-    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
   }
   .api-key-wrap input {
     background: transparent;
@@ -156,10 +148,16 @@
     font-family: monospace;
     font-size: 12px;
     color: var(--text-2);
-    width: 180px;
+    width: 100%;
     padding: 0;
   }
   .api-key-wrap input::placeholder { color: var(--text-3); }
+  .api-key-hint {
+    font-size: 10.5px;
+    color: var(--text-3);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
 
   .btn-clear {
     font-size: 12px;
@@ -569,10 +567,6 @@
     <span class="logo-tagline">Your technical executive coach</span>
   </div>
   <div class="header-right">
-    <div class="api-key-wrap">
-      <span class="api-key-label">API Key</span>
-      <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" />
-    </div>
     <button class="mode-tab active" onclick="setMode('coach', this)">Coach</button>
     <button class="mode-tab" onclick="setMode('roleplay', this)">Role-play</button>
     <button class="mode-tab" onclick="setMode('framework', this)">Frameworks</button>
@@ -584,6 +578,14 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
+
+    <div class="sidebar-group">
+      <div class="sidebar-title">API Key</div>
+      <div class="api-key-wrap">
+        <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" />
+      </div>
+      <div class="api-key-hint">Required when running outside claude.ai</div>
+    </div>
 
     <div class="sidebar-group">
       <div class="sidebar-title">Focus Areas</div>
