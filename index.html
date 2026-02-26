@@ -579,14 +579,6 @@
   <!-- Sidebar -->
   <div class="sidebar">
 
-    <div class="sidebar-group" id="api-key-section">
-      <div class="sidebar-title">API Key</div>
-      <div class="api-key-wrap">
-        <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off" oninput="saveApiKey(this.value)" />
-      </div>
-      <div class="api-key-hint">Required when running outside claude.ai</div>
-    </div>
-
     <div class="sidebar-group">
       <div class="sidebar-title">Focus Areas</div>
       <div class="skill-chip active" onclick="toggleSkill(this)">
@@ -732,6 +724,9 @@
 </div>
 
 <script>
+
+  // ⬇️ Paste your Anthropic API key here to publish without login
+  window.EMMA_API_KEY = 'YOUR_API_KEY_HERE';
 
   const SYSTEM_PROMPT = `You are Emma, a world-class executive leadership coach for C-suite leaders — with a specific specialization in helping technical executives build and lead design and AI-native teams. Your coaching style is direct, incisive, and sophisticated. You do not give generic advice.
 
@@ -971,7 +966,7 @@ Key structural models:
     sendBtn.disabled = true; addThinking();
 
     try {
-      const apiKey = document.getElementById('api-key-input')?.value?.trim() || '';
+      const apiKey = window.EMMA_API_KEY || document.getElementById('api-key-input')?.value?.trim() || '';
       const headers = { 'Content-Type': 'application/json' };
       if (apiKey) {
         headers['x-api-key'] = apiKey;
