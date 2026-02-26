@@ -959,12 +959,7 @@ Key structural models:
     const sendBtn = document.getElementById('send-btn');
     const text = input.value.trim();
     if (!text) return;
-    const isClaudeAI = window.location.hostname.includes('claude.ai') || window.location.hostname === 'localhost';
-    const apiKey = document.getElementById('api-key-input')?.value?.trim() || '';
-    if (!isClaudeAI && !apiKey) {
-      renderMessage('assistant', 'Please enter your Anthropic API key in the sidebar to get started.', true);
-      return;
-    }
+
 
     let userContent = text;
     if (currentMode === 'roleplay') userContent = `[ROLE-PLAY MODE] ${text}`;
@@ -976,19 +971,16 @@ Key structural models:
     sendBtn.disabled = true; addThinking();
 
     try {
-      const isClaudeAI = window.location.hostname.includes('claude.ai') || window.location.hostname === 'localhost';
       const apiKey = document.getElementById('api-key-input')?.value?.trim() || '';
-      const authHeaders = isClaudeAI ? {} : {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      };
+      const headers = { 'Content-Type': 'application/json' };
+      if (apiKey) {
+        headers['x-api-key'] = apiKey;
+        headers['anthropic-version'] = '2023-06-01';
+        headers['anthropic-dangerous-direct-browser-access'] = 'true';
+      }
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...authHeaders
-        },
+        headers,
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1000,
