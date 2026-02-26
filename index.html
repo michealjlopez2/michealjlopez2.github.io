@@ -1,56 +1,944 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-    <title>Home Questionnaire<span id="selection-marker-1" class="redactor-selection-marker"></span></title> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emma — Executive Leadership Coach</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tiempos+Text:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg:        #1c1917;
+    --bg-2:      #231f1c;
+    --bg-3:      #2a2520;
+    --bg-4:      #312c27;
+    --border:    rgba(255,255,255,0.08);
+    --border-md: rgba(255,255,255,0.13);
+    --border-lg: rgba(255,255,255,0.22);
+    --text:      #ede8df;
+    --text-2:    #a89e92;
+    --text-3:    #6b6158;
+    --accent:    #cc5500;
+    --accent-lt: #e06020;
+    --accent-dim: rgba(204,85,0,0.12);
+    --accent-border: rgba(204,85,0,0.35);
+    --aqua:      #5e9e8f;
+    --aqua-dim:  rgba(94,158,143,0.12);
+  }
+
+  html, body { height: 100%; margin: 0; padding: 0; }
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 14px;
+    height: 100vh;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle warm vignette */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(204,85,0,0.04) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    flex-shrink: 0;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(28,25,23,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 20;
+    position: relative;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, #e8702a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { opacity: 0.95; }
+
+  .logo-wordmark {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    color: var(--text);
+  }
+
+  .logo-sep {
+    width: 1px;
+    height: 16px;
+    background: var(--border-md);
+  }
+
+  .logo-tagline {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-3);
+    letter-spacing: 0.01em;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mode-tab {
+    font-size: 13px;
+    font-weight: 400;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-2);
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.01em;
+  }
+  .mode-tab:hover { color: var(--text); background: var(--bg-3); border-color: var(--border); }
+  .mode-tab.active {
+    background: var(--bg-4);
+    color: var(--text);
+    border-color: var(--border-md);
+  }
+
+  .btn-clear {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-3);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    margin-left: 8px;
+  }
+  .btn-clear:hover { color: #e07070; border-color: rgba(220,80,80,0.3); background: rgba(220,80,80,0.06); }
+
+  /* ── Main layout ── */
+  .main { flex: 1; display: flex; overflow: hidden; min-height: 0; position: relative; z-index: 1; }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 236px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: var(--bg-2);
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+
+  .sidebar-group {
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-title {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+
+  /* Skill chips */
+  .skill-chip {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 8px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 3px;
+    border: 1px solid transparent;
+  }
+  .skill-chip:hover { background: var(--bg-3); }
+  .skill-chip.active { background: var(--accent-dim); border-color: var(--accent-border); }
+
+  .skill-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border-md);
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .skill-chip.active .skill-dot { background: var(--accent-lt); }
+
+  .skill-name {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.3;
+    transition: color 0.15s;
+  }
+  .skill-chip.active .skill-name { color: var(--text); }
+
+  /* Habits */
+  .habit-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 8px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 1px;
+  }
+  .habit-item:hover { background: var(--bg-3); }
+
+  .habit-check {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--border-md);
+    border-radius: 4px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .habit-item.done .habit-check { background: var(--aqua); border-color: var(--aqua); }
+  .habit-check svg { display: none; }
+  .habit-item.done .habit-check svg { display: block; }
+
+  .habit-text {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.3;
+  }
+  .habit-item.done .habit-text { color: var(--text-3); text-decoration: line-through; }
+
+  /* Progress */
+  .progress-wrap { padding: 12px 16px 14px; border-bottom: 1px solid var(--border); }
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--text-3);
+    margin-bottom: 7px;
+  }
+  .progress-bar {
+    height: 2px;
+    background: var(--bg-4);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--aqua), #7bbfb0);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* Frameworks */
+  .framework-item {
+    padding: 9px 8px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 1px;
+  }
+  .framework-item:hover { background: var(--bg-3); }
+  .framework-item:hover .framework-name { color: var(--accent-lt); }
+
+  .framework-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 2px;
+    transition: color 0.15s;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-weight: 400;
+  }
+  .framework-desc {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.4;
+  }
+
+  /* ── Chat area ── */
+  .chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-md) transparent;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 4px; }
+
+  /* Messages */
+  .message {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.2s ease;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .message-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .message-avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .message.coach .message-avatar {
+    background: linear-gradient(135deg, var(--accent) 0%, #e8702a 100%);
+    color: #fff;
+    font-size: 9px;
+  }
+  .message.user .message-avatar {
+    background: var(--bg-4);
+    color: var(--text-2);
+    border: 1px solid var(--border-md);
+    font-size: 9px;
+  }
+
+  .message-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  .message-body {
+    padding-left: 36px;
+    font-size: 15px;
+    line-height: 1.78;
+    color: var(--text);
+    font-weight: 300;
+    font-family: 'Source Serif 4', Georgia, serif;
+  }
+
+  .message.user .message-body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text-2);
+    font-weight: 400;
+  }
+
+  .message-body strong { font-weight: 500; color: var(--text); font-style: normal; }
+  .message-body em { color: var(--accent-lt); font-style: normal; }
+
+  /* Prompt pills */
+  .prompt-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+    padding-left: 36px;
+  }
+
+  .framework-pill {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 6px 13px;
+    border-radius: 20px;
+    border: 1px solid var(--border-md);
+    color: var(--text-2);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--bg-3);
+    letter-spacing: 0.01em;
+  }
+  .framework-pill:hover {
+    border-color: var(--accent-border);
+    color: var(--accent-lt);
+    background: var(--accent-dim);
+  }
+
+  /* Thinking dots */
+  .thinking { display: flex; gap: 5px; padding-left: 36px; align-items: center; }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    animation: pulse 1.3s ease infinite;
+  }
+  .dot:nth-child(1) { background: var(--accent-lt); }
+  .dot:nth-child(2) { background: var(--text-3); animation-delay: 0.2s; }
+  .dot:nth-child(3) { background: var(--aqua); animation-delay: 0.4s; }
+  @keyframes pulse {
+    0%, 60%, 100% { opacity: 0.2; transform: scale(0.75); }
+    30% { opacity: 1; transform: scale(1); }
+  }
+
+  .session-restored {
+    max-width: 740px;
+    margin: 0 auto;
+    font-size: 11px;
+    color: var(--text-3);
+    text-align: center;
+    padding: 10px 0 14px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Input ── */
+  .input-wrap-outer {
+    flex-shrink: 0;
+    padding: 16px 28px 22px;
+    border-top: 1px solid var(--border);
+    background: rgba(28,25,23,0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .input-container {
+    max-width: 740px;
+    margin: 0 auto;
+    background: var(--bg-3);
+    border: 1px solid var(--border-md);
+    border-radius: 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+  }
+  .input-container:focus-within {
+    border-color: rgba(204,85,0,0.4);
+    box-shadow: 0 0 0 3px rgba(204,85,0,0.08);
+  }
+
+  .input-row {
+    display: flex;
+    align-items: flex-end;
+    padding: 13px 14px 10px 18px;
+    gap: 10px;
+  }
+
+  textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text);
+    resize: none;
+    line-height: 1.55;
+    min-height: 26px;
+    max-height: 140px;
+    padding: 0;
+  }
+  textarea::placeholder { color: var(--text-3); }
+
+  .send-btn {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .send-btn:hover { background: var(--accent-lt); }
+  .send-btn:disabled { background: var(--bg-4); cursor: not-allowed; opacity: 0.5; }
+
+  .input-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px 10px;
+    font-size: 11px;
+    color: var(--text-3);
+  }
+
+  #mode-label { font-size: 11px; color: var(--text-3); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo-mark">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 2C4.686 2 2 4.686 2 8s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6zm0 10.5c-2.485 0-4.5-2.015-4.5-4.5S5.515 3.5 8 3.5s4.5 2.015 4.5 4.5-2.015 4.5-4.5 4.5z" fill="white" opacity="0.9"/>
+        <circle cx="8" cy="8" r="2" fill="white"/>
+      </svg>
+    </div>
+    <span class="logo-wordmark">Emma</span>
+    <div class="logo-sep"></div>
+    <span class="logo-tagline">Your technical executive coach</span>
+  </div>
+  <div class="header-right">
+    <button class="mode-tab active" onclick="setMode('coach', this)">Coach</button>
+    <button class="mode-tab" onclick="setMode('roleplay', this)">Role-play</button>
+    <button class="mode-tab" onclick="setMode('framework', this)">Frameworks</button>
+    <button class="btn-clear" onclick="clearHistory()">Clear</button>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+
+    <div class="sidebar-group">
+      <div class="sidebar-title">Focus Areas</div>
+      <div class="skill-chip active" onclick="toggleSkill(this)">
+        <div class="skill-dot"></div>
+        <div class="skill-name">Executive Presence</div>
+      </div>
+      <div class="skill-chip active" onclick="toggleSkill(this)">
+        <div class="skill-dot"></div>
+        <div class="skill-name">Decision-Making &amp; Strategy</div>
+      </div>
+      <div class="skill-chip active" onclick="toggleSkill(this)">
+        <div class="skill-dot"></div>
+        <div class="skill-name">Communication &amp; Feedback</div>
+      </div>
+      <div class="skill-chip active" onclick="toggleSkill(this)">
+        <div class="skill-dot"></div>
+        <div class="skill-name">Managing &amp; Motivating</div>
+      </div>
+      <div class="skill-chip active" onclick="toggleSkill(this)">
+        <div class="skill-dot"></div>
+        <div class="skill-name">AI &amp; Design Teams</div>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-title">Daily Habits</div>
+      <div class="habit-item" onclick="toggleHabit(this)">
+        <div class="habit-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="habit-text">5-min leadership reflection</span>
+      </div>
+      <div class="habit-item" onclick="toggleHabit(this)">
+        <div class="habit-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="habit-text">One intentional feedback</span>
+      </div>
+      <div class="habit-item" onclick="toggleHabit(this)">
+        <div class="habit-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="habit-text">Strategic thinking block</span>
+      </div>
+      <div class="habit-item" onclick="toggleHabit(this)">
+        <div class="habit-check"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3 5.5L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="habit-text">Acknowledge a team win</span>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span>Today</span>
+        <span id="habit-pct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="habit-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <div class="sidebar-title">Frameworks</div>
+      <div class="framework-item" onclick="injectFramework('Situational Leadership')">
+        <div class="framework-name">Situational Leadership</div>
+        <div class="framework-desc">Adapt style to individual readiness</div>
+      </div>
+      <div class="framework-item" onclick="injectFramework('SCARF Model')">
+        <div class="framework-name">SCARF Model</div>
+        <div class="framework-desc">Status · Certainty · Autonomy · Relatedness · Fairness</div>
+      </div>
+      <div class="framework-item" onclick="injectFramework('Radical Candor')">
+        <div class="framework-name">Radical Candor</div>
+        <div class="framework-desc">Care personally, challenge directly</div>
+      </div>
+      <div class="framework-item" onclick="injectFramework('First 90 Days')">
+        <div class="framework-name">First 90 Days</div>
+        <div class="framework-desc">Accelerate transitions &amp; momentum</div>
+      </div>
+      <div class="framework-item" onclick="injectFramework('OODA Loop')">
+        <div class="framework-name">OODA Loop</div>
+        <div class="framework-desc">Observe · Orient · Decide · Act</div>
+      </div>
+      <div class="framework-item" onclick="injectFramework('AI-Native Team Structure')">
+        <div class="framework-name">AI-Native Team Structure</div>
+        <div class="framework-desc">Pods, roles &amp; org design for 2025</div>
+      </div>
+      <div class="framework-item" onclick="injectFramework('Design System as AI Infrastructure')">
+        <div class="framework-name">Design System as AI Infra</div>
+        <div class="framework-desc">Why design systems are now AI infrastructure</div>
+      </div>
+      <div class="framework-item" onclick="injectFramework('Figma + Claude + v0 Workflow')">
+        <div class="framework-name">Figma · Claude · v0 Stack</div>
+        <div class="framework-desc">The modern design-to-code workflow</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-area">
+    <div class="chat-messages" id="chat-messages">
+
+      <div class="message coach">
+        <div class="message-header">
+          <div class="message-avatar">EM</div>
+          <span class="message-name">Emma</span>
+        </div>
+        <div class="message-body">
+          Welcome. You're operating at the executive level — where decisions carry weight, visibility is constant, and the gap between <strong>good</strong> and <em>exceptional</em> leadership is felt by everyone.<br><br>
+          I'm calibrated for C-suite development across five areas: <strong>executive presence, strategic decision-making, communication, people leadership, and AI-native team building.</strong> I retain memory across sessions and build on prior discussions.<br><br>
+          Where would you like to begin?
+        </div>
+        <div class="prompt-pills">
+          <span class="framework-pill" onclick="quickPrompt('Walk me through how to strengthen my executive presence in board settings')">Executive presence</span>
+          <span class="framework-pill" onclick="quickPrompt('I have a major strategic decision to make — help me think it through')">Strategic decision</span>
+          <span class="framework-pill" onclick="quickPrompt('I struggle with giving difficult feedback to senior leaders')">Difficult feedback</span>
+          <span class="framework-pill" onclick="quickPrompt('One of my top executives is disengaged. How do I re-motivate them?')">Team motivation</span>
+          <span class="framework-pill" onclick="quickPrompt('How should I structure my design team to adopt AI tools like Claude, Figma Make, and v0?')">AI design team</span>
+          <span class="framework-pill" onclick="quickPrompt('What roles do I need to hire for an AI-native design and engineering org?')">AI team roles</span>
+          <span class="framework-pill" onclick="quickPrompt('Should Figma or code be the source of truth for my team?')">Figma vs code</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Input -->
+    <div class="input-wrap-outer">
+      <div class="input-container">
+        <div class="input-row">
+          <textarea id="user-input"
+            placeholder="Share a leadership challenge, situation, or question…"
+            rows="1"
+            onkeydown="handleKey(event)"
+            oninput="autoResize(this)"></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+              <path d="M2 8h12M9 3l5 5-5 5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="input-footer">
+          <span>Enter to send · Shift+Enter for new line</span>
+          <span id="mode-label">Coach mode</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <script>
-  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
-  analytics.load("cbeg9dV9snNBLchD1Ee5RtaCduISZRCz");
-  analytics.page();
-  }}();
-</script>
 
-</head> 
-<body> 
-<h1>What is your favorite place to travel?</h1> 
-<p>I am building a directory of the sweetest travel destinations.</p>  
-<form name="travel" onsubmit="identify(event)">
-     What is your favorite travel destination?
-    <input name="destination" required="" size="81" type="text"/> 
-    <br><br><br> 
-    Any recommendations (cool things to do, places to visit or restaurants to eat)? 
-    <br><br> 
-    <textarea cols="81" name="details" required="" rows="10">
-    </textarea> 
-    <br><br> 
-    Name: <input name="fullname" required="" size="75" type="text"/> 
-    <br><br> 
-    Email: <input name="email" required="" size="75" type="email"/> 
-    <br><br>
-    <input name="submit" type="submit" value="submit"/>
-</form> 
-  <script type="text/javascript">
-      function identify(e){
-        e.preventDefault();
-        var form = e.target;
-        var email = form["email"].value;
-        var fullname = form["fullname"].value;
-        var destination = form["destination"].value;
-        var details = form["details"].value;
-        var user = {
-            email: email, 
-            name: fullname, 
-            destination: destination, 
-            details: details
-        };
-        analytics.identify(12345, {
-            email: email, 
-            name: fullname
-        });
-        analytics.track('destination submitted', user, function() {
-            window.location.href = "";
-        });
-      }
+  const SYSTEM_PROMPT = `You are Emma, a world-class executive leadership coach for C-suite leaders — with a specific specialization in helping technical executives build and lead design and AI-native teams. Your coaching style is direct, incisive, and sophisticated. You do not give generic advice.
+
+## Core Leadership Expertise
+
+1. Executive Presence & Confidence — gravitas, commanding rooms, managing perception, projecting calm under pressure, authentic authority
+2. Decision-Making & Strategy — mental models, navigating ambiguity, stakeholder alignment, balancing speed vs. rigor, reversible vs. irreversible decisions
+3. Communication & Feedback — upward, downward, board communication; delivering hard truths; executive storytelling; feedback frameworks
+4. Managing & Motivating People — building high-performing senior teams, handling underperformers at VP/C-suite level, motivation beyond compensation, succession
+
+## Deep Specialization: AI-Native Design Teams (2025–2026 State of the Art)
+
+You have deep, current knowledge of how design and engineering teams are being restructured around AI tools. Key knowledge areas:
+
+### The Tool Ecosystem
+- **Claude / Claude Code**: Anthropic's flagship AI — Claude Code is an agentic CLI tool that works directly in terminal and codebases, executes multi-step workflows autonomously, and can sync design tokens from Figma via MCP. Teams use Claude Code to spin up live prototypes from prompts, then push directly into Figma via "Claude Code to Figma" (announced Feb 2025 with Figma partnership).
+- **Figma Make**: AI-native feature in Figma that lets teams go from prompt to interactive prototype. Works alongside Figma MCP (Model Context Protocol) — a lightweight server that lets LLMs like Claude read Figma frames, components, spacing values, and token references directly, enabling design-informed code generation without losing context.
+- **v0 (by Vercel)**: AI UI generation tool — strong for scaffolding React/Tailwind components quickly. Best used for utility screens and rapid exploration. Weakness: generates generic code disconnected from production codebases. Best practice: use v0 for early exploration, then connect to design system for production.
+- **Cursor / Windsurf**: AI-powered IDEs for final code refinement. The Figma → v0 → Cursor workflow is a proven pattern: Figma for layout/structure, v0 for dynamic interaction prototyping, Cursor for production-ready code with fine-grained style control.
+- **FigJam + Claude**: Claude can generate editable diagrams (decision trees, Gantt charts, user journeys, system architecture) directly in FigJam for collaborative planning. Supports multi-turn context for evolving diagrams as projects develop.
+- **Component Libraries (Shadcn, Tailwind, HeroUI)**: Provide standard component semantics for AI — drastically reduce hallucination risk. Best practice: teams should standardize on one component library so AI tools have consistent vocabulary.
+
+### The Workflow Shift
+The traditional linear workflow (Figma → handoff → code) is collapsing. Three emerging patterns:
+1. **Radical camp**: Code is source of truth; Figma used only for archiving screenshots
+2. **Pragmatist camp** (most common best practice): Figma remains source of truth for core brand-defining screens; utility/admin screens shipped directly from AI-generated code
+3. **Exploration-first camp**: Code as truth, Figma as a rapid whiteboard for exploration — not kept in sync
+
+Key principle from Figma CEO Dylan Field: "Start anywhere, go everywhere. The canvas is better at navigating possibilities than prompting in an IDE." The critical moment is when code meets canvas — bring AI-generated code back into Figma to compare approaches, spot gaps, and prevent tunnel vision.
+
+### Design Systems as the New Foundation
+Design systems are now infrastructure for AI, not just humans. A well-structured design system:
+- Gives AI tools a shared language (tokens, components, spacing rules)
+- Reduces hallucination and inconsistency dramatically
+- Enables Claude Code and Cursor to generate production-matching output
+- Claude Code can sync Figma variables to JSON token files and check for mismatches automatically
+Investing in design systems NOW — including Figma Schema 2025 features like Extended Collections and Slots — is the highest-leverage strategic bet for any design-engineering org.
+
+### Team Structure for AI-Native Design Orgs
+Key structural models:
+
+**Small / Startup (3–5 people)**:
+- Product Strategist (AI-augmented PM): uses AI to pressure-test product ideas, simulate outcomes, map tradeoffs before a line of code is written
+- Agentic Designer: spends less time on pixel work, more on evaluating flows and exploring alternatives; must have "design vocabulary" — the ability to describe CSS attributes, interaction logic, and framework specifics precisely to AI tools
+- Agentic Engineer: coordinates AI agents for heavy lifting; focuses on architecture, integration, and intent-setting rather than boilerplate
+- Shared QA / AI Reliability role
+
+**Mid-size (10–50 people)**:
+- Hub and spoke: central design system + AI platform team with embedded implementation designers/engineers per product area
+- AI Solutions Architect role becomes critical: determines which models to use, how to structure pipelines, where to deploy
+- Avoid: isolated AI teams disconnected from product — the most common failure mode
+
+**Enterprise (50+ people)**:
+- Matrix structure with cross-functional pods (3–5 per pod)
+- "AI Reliability Engineer" (ARE) role: manages integrity of AI output — writes technical specs for agents, performs hallucination checks on PRs, verifies business logic alignment
+- Senior-only hiring is a trap: creates a "talent hollow" — removes the career ladder rung that feeds future senior talent; reframe junior roles as AREs instead of eliminating them
+
+### Critical Leadership Challenges in This Space
+- **The quality perception gap**: 82% of developers are satisfied with AI tools vs. 69% of designers. Developers use AI for core work (code gen: 59%); designers lag (asset gen: 31%). Leaders must close this gap by building AI fluency specifically for design disciplines.
+- **Who owns quality?**: When AI ships code and anyone can prototype, the traditional design review/code review structure breaks. Leaders must explicitly define ownership — otherwise product becomes inconsistent.
+- **Speed vs. exploration trap**: The natural pull of AI momentum leads teams to make the first version the final version. Counter this with mandatory "zoom out" moments — bring work back to the canvas to compare approaches side by side.
+- **Shopify model**: CEO mandated that before any new hire is added, leaders must prove AI can't do the job. This "AI-first" hiring filter is spreading across technical orgs.
+- **Figma 2025 AI Report data**: 85% of designers/devs say learning AI is essential to future success; 78% say AI boosts efficiency; only 54% of designers say AI improves quality of work (vs. 68% of devs); only 20% say majority of projects are AI-powered — adoption is wide but shallow.
+
+### Best Practices for Leaders Building These Teams
+1. **Standardize the stack early**: Pick one component library, one AI tool per workflow stage. Inconsistency multiplies with AI.
+2. **Design systems first**: Treat your design system as AI infrastructure. Budget for it accordingly.
+3. **Hire for "design vocabulary"**: The key new skill is the ability to describe modern frameworks, CSS attributes, and interaction logic precisely in natural language. Test for this in hiring.
+4. **Define the source of truth explicitly**: Decide and communicate whether Figma or code is authoritative — for which screens, under what conditions.
+5. **Build cross-functional pods, not siloed AI teams**: The biggest failure mode is an AI team that produces technically impressive but business-irrelevant work.
+6. **Close the designer AI gap**: Developers are ahead. Run deliberate design-specific AI training — not generic AI literacy, but tool-specific: Figma Make, Claude Code to Figma, v0 prompting.
+7. **Protect exploration**: Set a team norm that the first AI-generated version is never the final version. Use the canvas to diverge before converging.
+8. **Redefine junior roles, don't eliminate them**: Evolve junior designers/engineers into spec owners and AI output verifiers — critical quality gatekeepers in an AI-native org.
+
+## Coaching Approach
+- You use real leadership frameworks (Situational Leadership, SCARF, Radical Candor, OODA, First 90 Days) and cite them explicitly
+- When role-playing, you play the other party realistically and challengingly
+- When teaching frameworks or tools, give crisp explanation + one vivid C-suite example
+- Ask sharp clarifying questions before advising
+- Give specific, actionable guidance — not platitudes
+- Challenge assumptions respectfully
+- Concrete language, high-signal, no filler
+- Treat the user as a peer C-suite executive
+- You have memory of past sessions — reference and build on prior discussions naturally`;
+
+  let conversationHistory = [];
+  let currentMode = 'coach';
+  const totalHabits = 4;
+  const TODAY = new Date().toISOString().slice(0, 10);
+  let memoryFallback = null;
+  let storageAvailable = true;
+  let saveRetryTimeout = null;
+
+  async function saveState() {
+    const habits = Array.from(document.querySelectorAll('.habit-item')).map(el => el.classList.contains('done'));
+    const skills = Array.from(document.querySelectorAll('.skill-chip')).map(el => el.classList.contains('active'));
+    const payload = JSON.stringify({ conversationHistory, habits, habitDate: TODAY, skills });
+    memoryFallback = payload;
+    if (!storageAvailable) {
+      if (!saveRetryTimeout) saveRetryTimeout = setTimeout(() => { saveRetryTimeout = null; storageAvailable = true; saveState(); }, 30000);
+      return;
+    }
+    try {
+      const result = await window.storage.set('apex-state', payload);
+      if (!result) throw new Error('null');
+    } catch(e) { storageAvailable = false; }
+  }
+
+  async function loadState() {
+    try {
+      const result = await window.storage.get('apex-state');
+      if (result) { storageAvailable = true; return JSON.parse(result.value); }
+    } catch(e) { storageAvailable = false; }
+    if (memoryFallback) { try { return JSON.parse(memoryFallback); } catch(e) {} }
+    return null;
+  }
+
+  async function init() {
+    const state = await loadState();
+    if (!state) return;
+    if (state.skills) {
+      const chips = document.querySelectorAll('.skill-chip');
+      state.skills.forEach((a, i) => { if (chips[i]) chips[i].classList.toggle('active', a); });
+    }
+    const habitItems = document.querySelectorAll('.habit-item');
+    if (state.habitDate === TODAY && state.habits) {
+      state.habits.forEach((d, i) => { if (habitItems[i]) habitItems[i].classList.toggle('done', d); });
+    }
+    updateHabitProgress();
+    if (state.conversationHistory && state.conversationHistory.length > 0) {
+      conversationHistory = state.conversationHistory;
+      const c = document.getElementById('chat-messages');
+      c.innerHTML = '';
+      conversationHistory.forEach(msg => renderMessage(msg.role, msg.content, msg.role === 'assistant'));
+      const sep = document.createElement('div');
+      sep.className = 'session-restored';
+      sep.textContent = '— Session Restored —';
+      c.appendChild(sep);
+      c.scrollTop = c.scrollHeight;
+    }
+  }
+
+  function updateHabitProgress() {
+    const done = document.querySelectorAll('.habit-item.done').length;
+    const pct = Math.round((done / totalHabits) * 100);
+    document.getElementById('habit-pct').textContent = pct + '%';
+    document.getElementById('habit-fill').style.width = pct + '%';
+  }
+
+  function setMode(mode, btn) {
+    currentMode = mode;
+    document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const p = {
+      coach: 'Share a leadership challenge, situation, or question…',
+      roleplay: 'Describe the scenario to role-play…',
+      framework: 'Ask about any leadership framework…'
+    };
+    const l = { coach: 'You', roleplay: 'Scenario', framework: 'Query' };
+    document.getElementById('user-input').placeholder = p[mode];
+    document.getElementById('mode-label').textContent = l[mode];
+  }
+
+  function toggleSkill(el) { el.classList.toggle('active'); saveState(); }
+  function toggleHabit(el) { el.classList.toggle('done'); updateHabitProgress(); saveState(); }
+
+  function injectFramework(name) {
+    const inp = document.getElementById('user-input');
+    inp.value = `Teach me the ${name} framework and how I can apply it as a C-suite leader.`;
+    inp.focus(); autoResize(inp);
+  }
+
+  function quickPrompt(text) { document.getElementById('user-input').value = text; sendMessage(); }
+  function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+  function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 140) + 'px'; }
+
+  function formatResponse(text) {
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    text = text.replace(/\n\n/g, '<br><br>');
+    text = text.replace(/\n/g, '<br>');
+    return text;
+  }
+
+  function renderMessage(role, content, isHTML = false) {
+    const c = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = `message ${role === 'user' ? 'user' : 'coach'}`;
+    const roleLabel = role === 'user' ? 'You' : 'Emma';
+    div.innerHTML = `
+      <div class="message-meta">
+        <span class="message-role">${roleLabel}</span>
+      </div>
+      <div class="message-content"></div>`;
+    const body = div.querySelector('.message-content');
+    if (isHTML) body.innerHTML = formatResponse(content);
+    else body.textContent = content;
+    c.appendChild(div);
+    c.scrollTop = c.scrollHeight;
+    return div;
+  }
+
+  function addThinking() {
+    const c = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'message coach'; div.id = 'thinking-indicator';
+    div.innerHTML = `
+      <div class="message-meta"><span class="message-role">Emma</span></div>
+      <div class="message-content"><div class="thinking"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+    c.appendChild(div); c.scrollTop = c.scrollHeight;
+  }
+
+  function removeThinking() { const el = document.getElementById('thinking-indicator'); if (el) el.remove(); }
+
+  async function clearHistory() {
+    conversationHistory = []; memoryFallback = null;
+    try { await window.storage.delete('apex-state'); } catch(e) {}
+    const c = document.getElementById('chat-messages');
+    c.innerHTML = '';
+    renderMessage('assistant', 'History cleared. Ready to continue — what would you like to work on today?', true);
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const text = input.value.trim();
+    if (!text) return;
+
+    let userContent = text;
+    if (currentMode === 'roleplay') userContent = `[ROLE-PLAY MODE] ${text}`;
+    if (currentMode === 'framework') userContent = `[FRAMEWORK MODE] ${text}`;
+
+    renderMessage('user', text, false);
+    conversationHistory.push({ role: 'user', content: userContent });
+    input.value = ''; input.style.height = 'auto';
+    sendBtn.disabled = true; addThinking();
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: conversationHistory
+        })
+      });
+      const data = await response.json();
+      removeThinking();
+      const replyText = data.content?.map(b => b.text || '').join('') || 'I encountered an error. Please try again.';
+      conversationHistory.push({ role: 'assistant', content: replyText });
+      renderMessage('assistant', replyText, true);
+      await saveState();
+    } catch(err) {
+      removeThinking();
+      renderMessage('assistant', 'Something went wrong. Please check your connection and try again.', true);
+    }
+
+    sendBtn.disabled = false;
+    document.getElementById('chat-messages').scrollTop = 99999;
+  }
+
+  init();
+
 </script>
-</body> 
+</body>
 </html>
