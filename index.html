@@ -725,9 +725,6 @@
 
 <script>
 
-  // ⬇️ Paste your Anthropic API key here to publish without login
-  window.EMMA_API_KEY = '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';
-
   const SYSTEM_PROMPT = `You are Emma, a world-class executive leadership coach for C-suite leaders — with a specific specialization in helping technical executives build and lead design and AI-native teams. Your coaching style is direct, incisive, and sophisticated. You do not give generic advice.
 
 ## Core Leadership Expertise
@@ -966,18 +963,11 @@ Key structural models:
     sendBtn.disabled = true; addThinking();
 
     try {
-      const apiKey = window.EMMA_API_KEY || document.getElementById('api-key-input')?.value?.trim() || '';
-      const headers = { 'Content-Type': 'application/json' };
-      if (apiKey) {
-        headers['x-api-key'] = apiKey;
-        headers['anthropic-version'] = '2023-06-01';
-        headers['anthropic-dangerous-direct-browser-access'] = 'true';
-      }
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
-        headers,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-sonnet-4-5',
           max_tokens: 1000,
           system: SYSTEM_PROMPT,
           messages: conversationHistory
@@ -987,7 +977,7 @@ Key structural models:
       removeThinking();
       if (!response.ok) {
         const errMsg = data?.error?.message || `API error ${response.status}`;
-        renderMessage('assistant', `Error from Anthropic: ${errMsg}`, true);
+        renderMessage('assistant', `Error: ${errMsg}`, true);
         sendBtn.disabled = false;
         return;
       }
